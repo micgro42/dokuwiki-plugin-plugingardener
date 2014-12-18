@@ -5,13 +5,13 @@
  * !!! edits has been done in php.ini to allow_url_fopen !!!
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Håkan Sandell <hakan.sandell@home.se>
+ * @author     HÃ¥kan Sandell <hakan.sandell@home.se>
  */
 
  // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
-if(!defined('DOKU_PLUGIN')) 
+if(!defined('DOKU_PLUGIN'))
     define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 
 require_once(DOKU_PLUGIN.'/plugingardener/classes/pg_gardener.class.php');
@@ -29,26 +29,31 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
     var $info = array();
     var $collections = array();
                         // danger ! localdir is hardcode in other admin
-	var $cfg = array( 'doku_eventlist_uri' => 'http://www.dokuwiki.org/devel:events_list',
-                      'doku_repo_uri' => 'http://www.dokuwiki.org/lib/plugins/pluginrepo/repository.php',
-                      'doku_index_uri' => 'http://www.dokuwiki.org/plugins',
-                      'doku_pluginbase_uri' => 'http://www.dokuwiki.org/plugin:',
-                      'bundledsourcedir' => 'c:/DokuWikiStickNew/dokuwiki/lib/plugins/',
-                      'localdir' => 'C:/DokuWikiStickNew/tmp2011/',
-					  'previousYearTotal' => 672, 
-					  'offline' => true, 
-					  'downloadindex' => false, 
-					  'downloadpages' => false, 
-					  'downloadplugins' => false, 
-					  'overwrite' => false,
-					  'firstplugin' => '', 
-					  'lastplugin' => '', 
-					  'fasteval' => true );
+	var $cfg = array();
 
     function handle() {
     }
 
+    function createConfig() {
+        $cfg['doku_eventlist_uri'] = $this->getConf('doku_eventlist_uri');
+        $cfg['doku_repo_uri'] = $this->getConf('doku_repo_uri');
+        $cfg['doku_index_uri'] = $this->getConf('doku_index_uri');
+        $cfg['doku_pluginbase_uri'] = $this->getConf('doku_pluginbase_uri');
+        $cfg['bundledsourcedir'] = $this->getConf('bundledsourcedir');
+        $cfg['localdir'] = $this->getConf('localdir');
+        $cfg['previousYearTotal'] = 672;
+        $cfg['offline'] = true;
+        $cfg['downloadindex'] = false;
+        $cfg['downloadpages'] = false;
+        $cfg['downloadplugins'] =false;
+        $cfg['overwrite'] = false;
+        $cfg['firstplugin'] = '';
+        $cfg['lastplugin'] = '';
+        $cfg['fasteval'] = true;
+    }
+
     function html() {
+        $this->createConfig();
         // ensure output directory exists
         $localdir = $this->cfg['localdir'];
         if (!file_exists($localdir)) {
@@ -69,8 +74,8 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
         // get list of previous years developers
         $this->collections['previousDevelopers'] = file($localdir.'previous_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         if (!$this->collections['previousDevelopers']) $this->collections['previousDevelopers'] = array();
-        $this->collections['previousDevelopers'] = array_unique($this->collections['previousDevelopers']); 
-        
+        $this->collections['previousDevelopers'] = array_unique($this->collections['previousDevelopers']);
+
 		$handler = new pg_dokuwikiwebexaminer($this);
 		if (!$handler->execute()) {
             echo "<h1>Aborted</h1>";
@@ -96,7 +101,7 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
     function echodwlink($plugins) {
         if (!is_array($plugins)) {
             $plugins = array($plugins);
-        }        
+        }
         foreach ($plugins as $plugin) {
             $tmp .= "<a href=\"http://www.dokuwiki.org/plugin:$plugin\">$plugin</a>, ";
         }
