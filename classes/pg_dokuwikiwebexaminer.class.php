@@ -133,7 +133,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no popularity page</li>\n";
             return;
         }
-        preg_match_all('/\/plugin:([-.\w]*)(.*?)\<div class="prog-border" title="(\d+)/', $markup, $matches, PREG_SET_ORDER); 
+        preg_match_all('/\/plugin:([-.\w]*)(.*?)\<div class="prog-border" title="(\d+)/', $markup, $matches, PREG_SET_ORDER); // TODO: _getPopularityData matches nothing
         foreach ($matches as $plugin) {
             if (strcmp($plugin[1], $this->cfg['firstplugin']) < 0) continue;
             $this->info[$plugin[1]]['popularity'] = $plugin[3];
@@ -178,7 +178,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no events page</li>\n";
             return;
         }
-        preg_match_all('/\<td\><a href=\"\/([^\"]+)\"[^>]+>(.*?)\<\/a\>.*?\<td\>([-\d]+)\<\/td\>/', $markup, $matches, PREG_SET_ORDER); 
+        preg_match_all('/\<td\><a href=\"\/([^\"]+)\"[^>]+>(.*?)\<\/a\>.*?\<td\>([-\d]+)\<\/td\>/', $markup, $matches, PREG_SET_ORDER); //TODO _getEventList matches nothing
         foreach ($matches as $event) {
             $this->collections['eventlist'][$event[2]]['url'] = $event[1];
             $this->collections['eventlist'][$event[2]]['date'] = $event[3];
@@ -241,17 +241,17 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         $this->_readabilityIndex($plugin, $page);
 
         preg_match_all('/by <a ([^>]+(mailto:[^>]+)"[^>]+)\>(.*?)\<\/a\>/', $page, $matches);
-        $this->info[$plugin]['developer'] = $matches[3][0];
+        $this->info[$plugin]['developer'] = $matches[3][0]; // TODO: developer is not detected
 
         if (preg_match('/\<span class="conflicts"\>Conflicts with \<em\>(.*?)\<\/em\>/', $page, $match)) {
             preg_match_all('/\/plugin:([-.\w]*)/', $match[1], $matches);
-            $this->info[$plugin]['conflicts'] = $matches[1];
+            $this->info[$plugin]['conflicts'] = $matches[1]; // TODO: conflicts is not detected / mentioned under references
         }
 
-        preg_match_all('/Last modified: (\d+[\/]\d+[\/]\d+)/', $page, $matches);
+        preg_match_all('/Last modified: (\d+[\/]\d+[\/]\d+)/', $page, $matches); // TODO: Last modified is not detected
         $this->info[$plugin]['pagemodified'] = str_replace('/', '-', $matches[1][0]);
 
-        preg_match_all('/\<span class="lastupd">Last updated on \<em\>(.*?)\<\/em\>/', $page, $matches);
+        preg_match_all('/\<span class="lastupd">Last updated on \<em\>(.*?)\<\/em\>/', $page, $matches); // TODO: Last updated on is not detected
         $this->info[$plugin]['lastupdate'] = $matches[1][0];
 
         if (preg_match('/&lt;\?php/', $page, $matches)) { // TODO: enhance for better match and count size and number of divs
@@ -316,7 +316,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
 
             if (preg_match('/href="(http:[^"]+)"/', $link[1], $url)) {
                 if (!$this->_getDownloadLink($plugin, $url[1])) {
-                    if (preg_match('/www.dokuwiki.org/', $url[1])) {
+                    if (preg_match('/www.dokuwiki.org/', $url[1])) { //TODO: Check if this should rather match *.dokuwiki.org
                         $this->info[$plugin]['dokulinks'][] = $url[1];
                     } else {
                         $this->info[$plugin]['links'][] = array($url[1],$link[2]);
@@ -360,7 +360,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
 
     function _examineExternalHomepages() {
         $localdir = $this->cfg['localdir'];
-        // read whitelist of allowed external links
+        // read whitelist of allowed external links  // TODO: BIG CODE COMMENT - check if it can be safely deleted
 /*        $allowedpages = array();
         $text = file_get_contents($localdir.'externalpages_ok.txt');
         preg_match_all('/^([^\t]+)\t([^\t]+)\t/m', $text ,$matches, PREG_SET_ORDER);
