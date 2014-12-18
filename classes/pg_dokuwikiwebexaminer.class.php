@@ -105,8 +105,13 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
 
     // compare with previous year index
     function _identifyNewPlugins($plugins) {
-        $markup = file_get_contents($this->cfg['localdir'].'index_old.htm');
-        if (empty($markup)) return;
+        if (file_exists($this->cfg['localdir'].'index_old.htm')) {
+            $markup = file_get_contents($this->cfg['localdir'] . 'index_old.htm');
+        }
+        if (empty($markup)) {
+            echo "<li> File " . $this->cfg['localdir'].'index_old.htm' . " not found. No old/new plugins.</li>\n";
+            return;
+        }
 
         preg_match_all('/\/plugin:([-.\w]*)/', $markup, $matches);
         $previous_plugins = $matches[1];
