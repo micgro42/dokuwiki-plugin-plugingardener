@@ -64,18 +64,29 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
 
         // get plugins that not are plugins (manualy managed local list)
         echo "<h5>Not plugins</h5>";
-        $this->collections['notPlugins'] = file($localdir.'not_plugins.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (!$this->collections['notPlugins']) $this->collections['notPlugins'] = array();
+        if (file_exists($localdir.'not_plugins.txt')) {
+            $this->collections['notPlugins'] = file($localdir . 'not_plugins.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }else{
+            $this->collections['notPlugins'] = array();
+        }
         $this->echodwlink($this->collections['notPlugins']);
 
         // get list of developers with special attention
-        $this->collections['trackedDevelopers'] = file($localdir.'tracked_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (!$this->collections['trackedDevelopers']) $this->collections['trackedDevelopers'] = array();
+        echo "<h5>developers with special attention</h5>";
+        if (file_exists($localdir.'tracked_developers.txt')) {
+            $this->collections['trackedDevelopers'] = file($localdir . 'tracked_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }else {
+            $this->collections['trackedDevelopers'] = array();
+        }
         $this->collections['trackedDevErr'] = array();
 
         // get list of previous years developers
-        $this->collections['previousDevelopers'] = file($localdir.'previous_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        if (!$this->collections['previousDevelopers']) $this->collections['previousDevelopers'] = array();
+        echo "<h5>previous years developers</h5>";
+        if (file_exists($localdir.'previous_developers.txt')) {
+            $this->collections['previousDevelopers'] = file($localdir . 'previous_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        }else {
+            $this->collections['previousDevelopers'] = array();
+        }
         $this->collections['previousDevelopers'] = array_unique($this->collections['previousDevelopers']);
 
 		$handler = new pg_dokuwikiwebexaminer($this);
