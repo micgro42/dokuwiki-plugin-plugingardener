@@ -193,7 +193,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         }
         echo "<li>Examine plugin homepages...</li><ul>";
         foreach ($plugins as $plugin) {
-            set_time_limit(60);
+            set_time_limit($this->cfg['plugin_page_timeout']);
             $localcopy = $localpagedir.$plugin.'.htm';
 			if (($this->cfg['downloadpages'] || !file_exists($localcopy)) && !$this->cfg['offline']) {
                 $markup = file_get_contents($this->cfg['doku_pluginbase_uri'].$plugin);
@@ -415,7 +415,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         // download every page and examine
         $localpagedir = $localdir.'pages/';
         foreach ($checkpages as $plugin => $pageurl) {
-            set_time_limit(120);
+            set_time_limit($this->cfg['external_page_timeout']);
             if (($this->cfg['downloadpages'] || !file_exists($localpagedir.$plugin.'.external.htm')) && !$this->cfg['offline']) {
                 echo "<li><a href=\"http://www.dokuwiki.org/plugin:$plugin\">$plugin</a> - <a href=\"$pageurl\">$pageurl</a></li>\n";
                 $markup = @file_get_contents($pageurl);
