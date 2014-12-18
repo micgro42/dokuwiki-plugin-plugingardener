@@ -245,8 +245,8 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         $this->info[$plugin]['pagesize'] = strlen($page);
         $this->_readabilityIndex($plugin, $page);
 
-        preg_match_all('/by <a ([^>]+(mailto:[^>]+)"[^>]+)\>(.*?)\<\/a\>/', $page, $matches);
-        $this->info[$plugin]['developer'] = $matches[3][0]; // TODO: developer is not detected
+        preg_match_all('/By <a ([^>]+(mailto:[^>]+)"[^>]+)\>(.*?)\<\/a\>/', $page, $matches);
+        $this->info[$plugin]['developer'] = $matches[3][0];
 
         if (preg_match('/\<span class="conflicts"\>Conflicts with \<em\>(.*?)\<\/em\>/', $page, $match)) {
             preg_match_all('/\/plugin:([-.\w]*)/', $match[1], $matches);
