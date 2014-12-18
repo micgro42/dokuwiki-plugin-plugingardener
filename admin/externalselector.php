@@ -27,8 +27,8 @@ class admin_plugin_plugingardener_externalselector extends DokuWiki_Admin_Plugin
     }
 
     function handle() {
- 
-        $external_fn = 'C:/DokuWikiStickNew/tmp2011/externalpages.txt';
+
+        $external_fn = $this->getConf('localdir') .'/externalpages.txt';
         if (file_exists($external_fn)) {
             $this->externalpages = unserialize(file_get_contents($external_fn));
         }
