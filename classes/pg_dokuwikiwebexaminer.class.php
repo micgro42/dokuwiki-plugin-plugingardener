@@ -13,7 +13,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         $plugins = $this->_applyPluginLimits($plugins);
         $this->collections['plugins'] = $plugins;
         if (count($plugins) == 0) return false;
-        
+
         $this->_examineHomepages($plugins);
         $this->_identifyNewPlugins($plugins);
         $this->_getPopularityData();
@@ -86,7 +86,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no plugin index\n";
             return array();
         }
-        preg_match_all('/\/plugin:([-.\w]*)/', $markup, $matches); 
+        preg_match_all('/\/plugin:([-.\w]*)/', $markup, $matches);
         return $matches[1];
     }
 
@@ -108,7 +108,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         $markup = file_get_contents($this->cfg['localdir'].'index_old.htm');
         if (empty($markup)) return;
 
-        preg_match_all('/\/plugin:([-.\w]*)/', $markup, $matches); 
+        preg_match_all('/\/plugin:([-.\w]*)/', $markup, $matches);
         $previous_plugins = $matches[1];
         $newplugins = array_values(array_diff($plugins, $previous_plugins));
         foreach ($newplugins as $name) {
@@ -152,7 +152,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no popularity page</li>\n";
             return;
         }
-        preg_match_all('/\/plugin:([-.\w]*)(.*?)\<div class="prog-border" title="(\d+)/', $markup, $matches, PREG_SET_ORDER); 
+        preg_match_all('/\/plugin:([-.\w]*)(.*?)\<div class="prog-border" title="(\d+)/', $markup, $matches, PREG_SET_ORDER);
         foreach ($matches as $plugin) {
             if (strcmp($plugin[1], $this->cfg['firstplugin']) < 0) continue;
             if (!$this->info[$plugin[1]]) continue;
