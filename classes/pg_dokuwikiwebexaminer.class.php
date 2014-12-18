@@ -248,9 +248,9 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         preg_match_all('/By <a ([^>]+(mailto:[^>]+)"[^>]+)\>(.*?)\<\/a\>/', $page, $matches);
         $this->info[$plugin]['developer'] = $matches[3][0];
 
-        if (preg_match('/\<span class="conflicts"\>Conflicts with \<em\>(.*?)\<\/em\>/', $page, $match)) {
+        if (preg_match('/Conflicts with\<\/dt\>\n\<dd\>(.*?)\<\/dd\>/', $page, $match)) {
             preg_match_all('/\/plugin:([-.\w]*)/', $match[1], $matches);
-            $this->info[$plugin]['conflicts'] = $matches[1]; // TODO: conflicts is not detected / mentioned under references
+            $this->info[$plugin]['conflicts'] = $matches[1];
         }
 
         preg_match_all('/Last modified: (\d+[\/]\d+[\/]\d+)/', $page, $matches); // TODO: Last modified is not detected
