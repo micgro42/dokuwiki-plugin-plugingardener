@@ -26,30 +26,32 @@ require_once(DOKU_PLUGIN.'/plugingardener/classes/pg_reportwriter.class.php');
  */
 class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
 
-    var $info = array();
-    var $collections = array();
+    public $info = array();
+    public $collections = array();
                         // danger ! localdir is hardcode in other admin
-	var $cfg = array();
+    public $cfg = array();
 
     function handle() {
     }
 
     function createConfig() {
-        $cfg['doku_eventlist_uri'] = $this->getConf('doku_eventlist_uri');
-        $cfg['doku_repo_uri'] = $this->getConf('doku_repo_uri');
-        $cfg['doku_index_uri'] = $this->getConf('doku_index_uri');
-        $cfg['doku_pluginbase_uri'] = $this->getConf('doku_pluginbase_uri');
-        $cfg['bundledsourcedir'] = $this->getConf('bundledsourcedir');
-        $cfg['localdir'] = $this->getConf('localdir');
-        $cfg['previousYearTotal'] = 672;
-        $cfg['offline'] = true;
-        $cfg['downloadindex'] = false;
-        $cfg['downloadpages'] = false;
-        $cfg['downloadplugins'] =false;
-        $cfg['overwrite'] = false;
-        $cfg['firstplugin'] = '';
-        $cfg['lastplugin'] = '';
-        $cfg['fasteval'] = true;
+        $this->cfg['doku_eventlist_uri'] = $this->getConf('doku_eventlist_uri');
+        $this->cfg['doku_repo_uri'] = $this->getConf('doku_repo_uri');
+        $this->cfg['doku_index_uri'] = $this->getConf('doku_index_uri');
+        $this->cfg['doku_pluginbase_uri'] = $this->getConf('doku_pluginbase_uri');
+        $this->cfg['bundledsourcedir'] = $this->getConf('bundledsourcedir');
+        $this->cfg['localdir'] = $this->getConf('localdir');
+        $this->cfg['previousYearTotal'] =  $this->getConf('previousYearTotal');
+        $this->cfg['offline'] =  $this->getConf('offline');
+        $this->cfg['downloadindex'] =  $this->getConf('downloadindex');
+        $this->cfg['downloadpages'] =  $this->getConf('downloadpages');
+        $this->cfg['downloadplugins'] = $this->getConf('downloadplugins');
+        $this->cfg['overwrite'] =  $this->getConf('overwrite');
+        $this->cfg['firstplugin'] =  $this->getConf('firstplugin');
+        $this->cfg['lastplugin'] =  $this->getConf('lastplugin');
+        $this->cfg['fasteval'] =  $this->getConf('fasteval');
+        $this->cfg['plugin_page_timeout'] = $this->getConf('plugin_page_timeout');
+        $this->cfg['external_page_timeout'] = $this->getConf('external_page_timeout');
     }
 
     function html() {
