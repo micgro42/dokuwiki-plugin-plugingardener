@@ -138,7 +138,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no popularity page</li>\n";
             return;
         }
-        preg_match_all('/\/plugin:([-.\w]*)(.*?)\<div class="prog-border" title="(\d+)/', $markup, $matches, PREG_SET_ORDER); // TODO: _getPopularityData matches nothing
+        preg_match_all('/<div class="mainInfo">\n<strong><a href="\/plugin:([-.\w]*)(.*?)\<div class="progress" title="(\d+)/s', $markup, $matches, PREG_SET_ORDER);
         foreach ($matches as $plugin) {
             if (strcmp($plugin[1], $this->cfg['firstplugin']) < 0) continue;
             $this->info[$plugin[1]]['popularity'] = $plugin[3];
