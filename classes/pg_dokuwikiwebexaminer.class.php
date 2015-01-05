@@ -256,7 +256,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         preg_match_all('/Last modified: (\d+[\-]\d+[\-]\d+)/', $page, $matches);
         $this->info[$plugin]['pagemodified'] = str_replace('/', '-', $matches[1][0]);
 
-        preg_match_all('/\<span class="lastupd">Last updated on \<em\>(.*?)\<\/em\>/', $page, $matches); // TODO: Last updated on is not detected
+        preg_match_all('/Last updated on\<\/dt\>\n\<dd\>(\d{4}-\d{2}\-\d{2})/', $page, $matches);
         $this->info[$plugin]['lastupdate'] = $matches[1][0];
 
         if (preg_match('/&lt;\?php/', $page, $matches)) { // TODO: enhance for better match and count size and number of divs
