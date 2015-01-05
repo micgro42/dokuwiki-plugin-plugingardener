@@ -279,7 +279,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             $this->info[$plugin]['download'][] = $matches[1];
         }
 
-        if (preg_match('/class="repo" href="(.*?)"\>/', $page, $matches)) {
+        if (preg_match('/class="urlextern" href="(.*?)"\>/', $page, $matches)) {
             $this->info[$plugin]['repobutton'] = $matches[1];
         }
 
