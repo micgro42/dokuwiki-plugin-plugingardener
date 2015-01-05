@@ -22,3 +22,4 @@ $meta['lastplugin'] = array('string');
 $meta['fasteval'] = array('onoff');
 $meta['plugin_page_timeout'] = array('numeric');
 $meta['external_page_timeout'] = array('numeric');
+$meta['survey_year'] = array('numeric');
