@@ -200,6 +200,10 @@ $ii = 0;
         if (preg_match('/private\s+function/i',$markup))
             $this->info[$plugin]['php5'] = 'yes';
 
+        //check for usage of old auth backend
+        if (preg_match('/inc\/auth\//',$markup))
+            $this->info[$plugin]['old_auth'] = 'yes';
+
         // registered event handlers
         preg_match_all('/->register_hook\(\s*\'([A-Z_]*)/s',$markup,$matches,PREG_SET_ORDER);
         foreach ($matches as $info) {
