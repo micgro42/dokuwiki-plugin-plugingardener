@@ -76,6 +76,7 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
         echo "<h5>developers with special attention</h5>";
         if (file_exists($localdir.'tracked_developers.txt')) {
             $this->collections['trackedDevelopers'] = file($localdir . 'tracked_developers.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $this->collections['trackedDevelopers'] = array_map('strtolower', $this->collections['trackedDevelopers']);
         }else {
             $this->collections['trackedDevelopers'] = array();
         }
