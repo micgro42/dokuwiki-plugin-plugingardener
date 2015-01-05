@@ -183,7 +183,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             echo "--> Error - no events page</li>\n";
             return;
         }
-        preg_match_all('/\<td\><a href=\"\/([^\"]+)\"[^>]+>(.*?)\<\/a\>.*?\<td\>([-\d]+)\<\/td\>/', $markup, $matches, PREG_SET_ORDER); //TODO _getEventList matches nothing
+        preg_match_all('/\<td class="align"\><a href=\"\/([^\"]+)\"[^>]+>(.*?)\<\/a\>.*?\<td class="align"\>([-\d]+)\<\/td\>/', $markup, $matches, PREG_SET_ORDER);
         foreach ($matches as $event) {
             $this->collections['eventlist'][$event[2]]['url'] = $event[1];
             $this->collections['eventlist'][$event[2]]['date'] = $event[3];
