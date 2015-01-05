@@ -253,7 +253,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             $this->info[$plugin]['conflicts'] = $matches[1];
         }
 
-        preg_match_all('/Last modified: (\d+[\/]\d+[\/]\d+)/', $page, $matches); // TODO: Last modified is not detected
+        preg_match_all('/Last modified: (\d+[\-]\d+[\-]\d+)/', $page, $matches);
         $this->info[$plugin]['pagemodified'] = str_replace('/', '-', $matches[1][0]);
 
         preg_match_all('/\<span class="lastupd">Last updated on \<em\>(.*?)\<\/em\>/', $page, $matches); // TODO: Last updated on is not detected
