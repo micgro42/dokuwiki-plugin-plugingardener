@@ -42,7 +42,7 @@ class pg_reportwriter extends pg_gardener {
 
     function _export_summary($localoutputdir, $s) {
 
-        $resultFile = $localoutputdir.'summary.txt';
+        $resultFile = $localoutputdir.'start.txt';
         echo "<li>$resultFile</li>";
         /*
          * collections['plugins']   contains all pages in plugin namespace as taken from index page 
