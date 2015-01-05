@@ -93,7 +93,7 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
 
 		$handler = new pg_dokuwikiwebexaminer($this);
 		if (!$handler->execute()) {
-            echo "<h1>Aborted</h1>";
+            echo "<h1>Aborted after handling pg_dokuwikiwebexaminer->execute</h1>";
             return;
         }
 
