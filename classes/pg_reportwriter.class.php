@@ -911,7 +911,7 @@ class pg_reportwriter extends pg_gardener {
     }
 
     function _export_trackedDevErrors($localoutputdir, $s) {
-        $resultFile = $localoutputdir.'trackedDevErrors.txt';
+        $resultFile = $localoutputdir.'trackeddeverrors.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
         fwrite($fp,"====== Plugin Survey ".date('Y')." - Developers Todo ======\n");
@@ -932,7 +932,7 @@ class pg_reportwriter extends pg_gardener {
     }
 
     function _export_teamtodolist($localoutputdir, $s) {
-        $resultFile = $localoutputdir.'teamTodoList.txt';
+        $resultFile = $localoutputdir.'teamtodolist.txt';
         echo "<li>$resultFile</li>";
 
         $fp = fopen($resultFile, 'w');
