@@ -50,19 +50,21 @@ class pg_reportwriter extends pg_gardener {
          *                          The csv export does include the 'not plugins' but the text reports doesn't 
          */
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." ======\n");
+        $survey_year = $this->cfg['survey_year'];
+        fwrite($fp,"====== Plugin Survey ".$survey_year." ======\n");
         fwrite($fp,"This is a survey of all [[:plugins]] present in the plugin namespace of %%www.dokuwiki.org%%.\n");
-        fwrite($fp,"Data was collected by an automated script 2011-11-23 with some additional manual data download and mining.\n");
+        fwrite($fp,"Data was collected by an automated script 2015-01-05 with some additional manual data download and mining.\n");
         fwrite($fp,"A total of ".count($this->collections['plugins'])." plugin pages containing ".$s->total." plugins was examined and source code for ");
         fwrite($fp,$s->cnt('$info["downloadexamined"] == "yes"')." downloaded and parsed.\n");
         fwrite($fp,"\n");
-        fwrite($fp,($s->total - $this->cfg['previousYearTotal'])." new plugins has been released since previous survey in september 2010 giving a groowth figure of ");
-        fwrite($fp,round($s->total/$this->cfg['previousYearTotal']*100-100) ."% a year.\n");
+        fwrite($fp,($s->total - $this->cfg['previousYearTotal'])." new plugins have been released since the previous survey in November 2011 giving a growth figure of ");
+        fwrite($fp,round(($s->total/$this->cfg['previousYearTotal']*100-100)/3.0) ."% a year.\n");
         fwrite($fp,"\n");
         fwrite($fp,"^Year ^Plugins ^\n");
         fwrite($fp,"| 2009 |  539|\n");
         fwrite($fp,"| 2010 |  672|\n");
-        fwrite($fp,"| 2011 |  $s->total|\n");
+        fwrite($fp,"| 2011 |  825|\n");
+        fwrite($fp,"| 2014 |  $s->total|\n");
         fwrite($fp,"\n");
         fwrite($fp,$s->cnt('$info["new"]', 'The %s new plugins')."\n");
         fwrite($fp,$s->plugins('$info["new"]'));

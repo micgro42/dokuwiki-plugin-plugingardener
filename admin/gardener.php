@@ -52,6 +52,7 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
         $this->cfg['fasteval'] =  $this->getConf('fasteval');
         $this->cfg['plugin_page_timeout'] = $this->getConf('plugin_page_timeout');
         $this->cfg['external_page_timeout'] = $this->getConf('external_page_timeout');
+        $this->cfg['survey_year'] = $this->getConf('survey_year');
     }
 
     function html() {
