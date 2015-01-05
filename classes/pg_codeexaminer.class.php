@@ -164,7 +164,6 @@ $ii = 0;
         // plugin type and name
         $infos = io_grep($file,'/(?<=class )\s*\w*(?=_plugin)/i',0,true);
         $classtype = trim($infos[0][0]);
-        if (!$classtype) return;
 
         $infos = io_grep($file,'/(?<=_plugin_)\w*(?= extends)/i',0,true);
         $classname = $infos[0][0];
