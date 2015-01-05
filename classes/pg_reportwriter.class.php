@@ -69,6 +69,12 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,$s->cnt('$info["new"]', 'The %s new plugins')."\n");
         fwrite($fp,$s->plugins('$info["new"]'));
         fwrite($fp,"\n");
+
+        fwrite($fp,"===== New Highlights in the 2014 survey =====\n");
+        fwrite($fp,"  * Which plugins still use invalid javascript instead of jQuery? (todo)\n");
+        fwrite($fp,"  * [[codestyle#php5|Which plugins depend on the old auth backend?]]\n");
+        fwrite($fp,"  * Which plugins use deprecated functions? (todo)\n");
+
         fwrite($fp,"===== Not every plugin is a plugin =====\n");
         fwrite($fp,"\n");
         fwrite($fp,"What about the ".count($this->collections['notPlugins'])." other pages?\n");
@@ -435,6 +441,12 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"DokuWiki release 2010-11-07a \"Anteater\" changed the behavior on page save. Functions handle() and render() are in most cases no longer called during save.\n");
         fwrite($fp,"The change means that relying on ''\$ACT == 'save''' doesn't work anymore. ".$s->count('$info["save_on_act"]')." plugins are still found using this technique.\n");
         fwrite($fp,$s->plugins('$info["save_on_act"]'));
+        fwrite($fp,"\n");
+
+        fwrite($fp,"=== Using the old auth backend ===\n");
+        fwrite($fp,"DokuWiki release 2013-05-10a \"Weatherwax\" itroduced [[devel:auth_plugins|Auth Plugins]]. \n");
+        fwrite($fp,"The change means that relying on the old backend doesn't work anymore. ".$s->count('$info["old_auth"]','uses old auth backend')." plugins are still found using this technique.\n");
+        fwrite($fp,$s->plugins('$info["old_auth"]'));
         fwrite($fp,"\n");
 
         fwrite($fp,"===== Toolbar =====\n");
