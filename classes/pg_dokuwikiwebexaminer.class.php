@@ -319,7 +319,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             if (preg_match('/<img /', $link[2])) continue;
             if (preg_match('/playground/', $link[1])) continue;
 
-            if (preg_match('/href="(http:[^"]+)"/', $link[1], $url)) {
+            if (preg_match('/href="(http[s]?:[^"]+)"/', $link[1], $url)) {
                 if (!$this->_getDownloadLink($plugin, $url[1])) {
                     if (preg_match('/www.dokuwiki.org/', $url[1])) { //TODO: Check if this should rather match *.dokuwiki.org
                         $this->info[$plugin]['dokulinks'][] = $url[1];
