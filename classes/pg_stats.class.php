@@ -101,10 +101,12 @@ class pg_stats {
         }
     }
 
+    static public function taglink($key) {return "[[plugintag>$key]]";}
+
     /*
      *  returns pivot table WITHOUT table header
      */
-    function pivot($expression, $showpercent = false, $sortlinkcount = false, $sortdesc = false, $num = null, $showlinks = false) {
+    function pivot($expression, $showpercent = false, $sortlinkcount = false, $sortdesc = false, $num = null, $showlinks = false, $callback = false) {
         $result = array();
         $func = create_function('$info' , "return ($expression);");
         foreach($this->info as $name => $info) {
@@ -138,8 +140,16 @@ class pg_stats {
                 ksort($result);
             }
         }
+        $retval = '';
+        $callback = array('pg_stats',$callback);
         foreach($result as $key => $links) {
-            $retval .= '|  '.$key.'  |  ';
+            $retval .= '|  ';
+            if (is_callable($callback)) {
+                $retval .= call_user_func($callback,$key);
+            } else {
+                $retval .= $key;
+            }
+            $retval .='  |  ';
             $retval .= count($links);
             if ($showpercent) {
                 $retval .= ' ('.round(count($links)/$this->total*100).'%)';
