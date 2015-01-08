@@ -106,7 +106,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
     // compare with previous year index
     function _identifyNewPlugins($plugins) {
         if (file_exists($this->cfg['localdir'].'index_old.htm')) {
-            $markup = file_get_contents($this->cfg['localdir'] . 'index_old.htm');
+            $markup = file_get_contents($this->cfg['localdir'] . 'index_2011.htm');
         }
         if (empty($markup)) {
             echo "<li> File " . $this->cfg['localdir'].'index_old.htm' . " not found. No old/new plugins.</li>\n";
@@ -148,7 +148,7 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
 
     function _getOldPopularityData() {
         echo "<li>Plugin old popularity ";
-        $localcopy = $this->cfg['localdir'].'plugins_old.htm';
+        $localcopy = $this->cfg['localdir'].'plugins_2011.htm';
         if (file_exists($localcopy)) {
             $markup = file_get_contents($localcopy);
             echo "read from file</li>\n";

@@ -924,7 +924,32 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
 
         fwrite($fp,"===== Rising stars =====\n");
-        fwrite($fp,"\n");
+        fwrite($fp,"In a short period after a plugin's release, growth in popularity can be huge. If the plugin author has addressed a common problem we may have a rising star. Here are the 10 plugins starting below 20 points in November 2011 with best growth since last survey.\n");
+        $rstars = array();
+        $twentyp = array();
+        foreach ($this->info as $name => $plugin) {
+            if (1 < $plugin['popularity_old'] && $plugin['popularity_old'] < 20) {
+                $rstars[$name] = $plugin['popularity'] - $plugin['popularity_old'];
+            } elseif ($plugin['popularity_old'] >= 20) {
+                $twentyp[$name] = ($plugin['popularity'] - $plugin['popularity_old'])/$plugin['popularity_old']*100;
+            }
+        }
+        arsort($rstars);
+        arsort($twentyp);
+        reset($rstars);
+        fwrite($fp,"^ ^Plugin ^  Developer  ^Last release ^Popularity change ^\n");
+        for ($i = 1; $i < 10; $i++){
+            fwrite($fp,"|  $i.| ".key($rstars)." |  ".$this->info[key($rstars)]['developer'] ."  | ".$this->info[key($rstars)]['lastupdate'] ."  |  +".current($rstars)."|\n");
+            next($rstars);
+        }
+
+        reset($twentyp);
+        fwrite($fp,"Looking a plugins that had 20 or more popularity point last year it is interesting to see the growth in percent. The top ten in this category are show below.\n");
+        fwrite($fp,"^ ^Plugin ^  Developer  ^Last release ^Popularity change ^\n");
+        for ($i = 1; $i < 10; $i++){
+            fwrite($fp,"|  $i.| ".key($twentyp)." |  ".$this->info[key($twentyp)]['developer'] ."  | ".$this->info[key($twentyp)]['lastupdate'] ."  |  +".sprintf("%.2f",current($twentyp))."%|\n");
+            next($twentyp);
+        }
         fwrite($fp,"\n");
         fwrite($fp,"\n");
         fwrite($fp,"===== By CosmoCode =====\n");
