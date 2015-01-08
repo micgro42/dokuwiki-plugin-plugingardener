@@ -109,12 +109,12 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
 
         fwrite($fp,"=== Repository Buttons ===\n");
-        fwrite($fp,"Late 2009 the [[plugin:repository|repository plugin]] introduced the possibility to add links to source code, bug tracker and a donate button. Since then developers and the [[teams:plugins_templates|plugin & templates team]] has spread their use.");
-        fwrite($fp,"^Button ^ Plugins 2010 ^ Plugins 2011 ^\n");
-        fwrite($fp,"|Download |  213 (%)|   ".$s->cnt('$info["downloadbutton"]','%s %s')."|\n");
-        fwrite($fp,"|Bugs     |  150 (%)|   ".$s->cnt('$info["bugsbutton"]','%s %s')."|\n");
-        fwrite($fp,"|Repo     |  138 (%)|   ".$s->cnt('$info["repobutton"]','%s %s')."|\n");
-        fwrite($fp,"|Donate   |   85 (%)|   ".$s->cnt('$info["donatebutton"]','%s %s')."|\n");
+        fwrite($fp,"Late 2009 the [[plugin:repository|repository plugin]] introduced the possibility to add links to source code, bug tracker and a donate button. Since then developers and the [[teams:plugins_templates|plugin & templates team]] has spread their use.\n");
+        fwrite($fp,"^Button ^ Plugins 2010 ^ Plugins 2011 ^ Plugins 2014 ^ \n");
+        fwrite($fp,"|Download |  213 (32%)|   660 (80%)|".$s->cnt('$info["downloadbutton"]','%s %s')."|\n");
+        fwrite($fp,"|Bugs     |  150 (22%)|   255 (31%)|".$s->cnt('$info["bugsbutton"]','%s %s')."|\n");
+        fwrite($fp,"|Repo     |  138 (21%)|   247 (30%)|".$s->cnt('$info["repobutton"]','%s %s')."|\n");
+        fwrite($fp,"|Donate   |   85 (13%)|   106 (13%)|".$s->cnt('$info["donatebutton"]','%s %s')."|\n");
         fwrite($fp,"\n");
         $s->count('!$info["downloadbutton"] && !$info["bundled"]','Missing download button');
 
@@ -129,9 +129,10 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"^Year ^ Plugins@GitHub ^\n");
         fwrite($fp,"|  2009  |  22  |\n");
         fwrite($fp,"|  2010  |  126  |\n");
-        fwrite($fp,"|  2011  |  ".$github."  |\n");
+        fwrite($fp,"|  2011  |  232  |\n");
+        fwrite($fp,"|  2014  |  ".$github."  |\n");
         fwrite($fp,"\n");
-		
+
         fwrite($fp,"=== External sites ===\n");
         fwrite($fp,$s->cnt('$info["externalpage"] == "yes"')." have their \"Details and download\" page somewhere outside www.dokuwiki.org ");
         fwrite($fp,"and ".$s->cnt('$info["externalpage"] == "broken"',null,'Broken external link')." were broken at the time of survey. Here is a list of the broken links:\n");
@@ -150,7 +151,8 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
         fwrite($fp,"^ Survey ^ Plugins ^\n");
         fwrite($fp,"|  2010  |  94  |\n");
-        fwrite($fp,"|  2011  |  ".$s->count('$info["plugininfotxt"]')."  |\n");
+        fwrite($fp,"|  2011  |  257  |\n");
+        fwrite($fp,"|  2014  |  ".$s->count('$info["plugininfotxt"]')."  |\n");
         fwrite($fp,"\n");
         $s->count('!$info["plugininfotxt"]','Doesn\'t use info.txt');
 
