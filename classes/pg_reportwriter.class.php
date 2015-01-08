@@ -155,6 +155,9 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"|  2014  |  ".$s->count('$info["plugininfotxt"]')."  |\n");
         fwrite($fp,"\n");
         $s->count('!$info["plugininfotxt"]','Doesn\'t use info.txt');
+        fwrite($fp,"However the following " . $s->count('$info["inconsistend dates"]','The dates of the pluginpage and in plugin.info.txt are inconsitent') . " plugins give different dates on their pluginpage and in the plugin.info.txt: .\n");
+        fwrite($fp,$s->plugins('$info["inconsistend dates"]'));
+
 
         fwrite($fp,"=== Bad folder structure ===\n");
         // TODO -- Bad folder structure
