@@ -616,6 +616,7 @@ class pg_reportwriter extends pg_gardener {
 
         uasort($eventlist, create_function('$a, $b','return count($a["plugins"]) < count($b["plugins"]);'));
         fwrite($fp,"\n");
+        fwrite($fp,"Here is the top 5 list, which have contained the same events since first survey in 2009:\n");
         fwrite($fp,"^Event ^Plugins ^\n");
         $i = 1;
         foreach ($eventlist as $name => $event) {
@@ -695,11 +696,11 @@ class pg_reportwriter extends pg_gardener {
 
         fwrite($fp,"=== Tags ===\n");
         fwrite($fp,"One of the main search mechanisms for plugins are a tag cloud in the [[:plugins|plugin list]]. Each plugin may have one or more tags attached to the plugin homepage. \n");
-        fwrite($fp,"**Two years** ago there were **745** different tags. Thanks to a tag cleanup campain, **360** tags were found last year. ");
-        fwrite($fp,"During this survey xx different tags where found, xx% of these were only used by a single plugin each. \n");
+        fwrite($fp,"2009 there were **745** different tags. Thanks to a tag cleanup campain, **360** tags were found in 2010. ");
+        fwrite($fp,"During this survey 711 (2011: 503) different tags where found, 61% (2011: 59%) of these were only used by a single plugin each. \n");
         fwrite($fp,"\n");
         fwrite($fp,"^ Tags ^ Plugins ^\n");
-        fwrite($fp,$s->pivot('$info["tags"]',true,true,true,10));
+        fwrite($fp,$s->pivot('$info["tags"]',true,true,true,10,false,"taglink"));
         fwrite($fp,"\n");
 
         fwrite($fp,"=== Excluded plugins ===\n");
