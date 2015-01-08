@@ -56,6 +56,7 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
     }
 
     function html() {
+        $starttime = microtime(true);
         $this->createConfig();
         // ensure output directory exists
         $localdir = $this->cfg['localdir'];
@@ -71,6 +72,8 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
             $this->collections['notPlugins'] = array();
         }
         $this->echodwlink($this->collections['notPlugins']);
+        printf("%.2f s\n",microtime(true)-$starttime);
+        $lasttime = microtime(true);
 
         // get list of developers with special attention
         echo "<h5>developers with special attention</h5>";
@@ -81,6 +84,8 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
             $this->collections['trackedDevelopers'] = array();
         }
         $this->collections['trackedDevErr'] = array();
+        printf("%.2f s\n",microtime(true)-$lasttime);
+        $lasttime = microtime(true);
 
         // get list of previous years developers
         echo "<h5>previous years developers</h5>";
@@ -90,27 +95,38 @@ class admin_plugin_plugingardener_gardener extends DokuWiki_Admin_Plugin {
             $this->collections['previousDevelopers'] = array();
         }
         $this->collections['previousDevelopers'] = array_unique($this->collections['previousDevelopers']);
+        printf("%.2f s\n",microtime(true)-$lasttime);
+        $lasttime = microtime(true);
+
 
 		$handler = new pg_dokuwikiwebexaminer($this);
 		if (!$handler->execute()) {
             echo "<h1>Aborted after handling pg_dokuwikiwebexaminer->execute</h1>";
             return;
         }
+        printf("%.2f s\n",microtime(true)-$lasttime);
+        $lasttime = microtime(true);
 
 		$handler = new pg_codedownloader($this);
 		$handler->execute();
+        printf("%.2f s\n",microtime(true)-$lasttime);
+        $lasttime = microtime(true);
 
 		$handler = new pg_codeexaminer($this);
 		$handler->execute();
+        printf("%.2f s\n",microtime(true)-$lasttime);
+        $lasttime = microtime(true);
 
         $handler = new pg_reportwriter($this);
         $handler->execute();
+        printf("%.2f s\n",microtime(true)-$lasttime);
 
         echo "<h4>Done</h4>";
         echo "<hr/>\n";
         if ($this->cfg['firstplugin'] == $this->cfg['lastplugin'] && $this->cfg['firstplugin'] != '') print_r($this->info);
         echo "<hr/>\n";
 //        echo print_r($this->collections['trackedDevErr']);
+        printf("Total time: %.2f s\n",microtime(true)-$starttime);
     }
 
     function echodwlink($plugins) {
