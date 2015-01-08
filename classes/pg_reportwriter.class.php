@@ -923,6 +923,10 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
         fwrite($fp,"\n");
         fwrite($fp,"\n");
+        fwrite($fp,"===== By CosmoCode =====\n");
+        fwrite($fp,"The following ".$s->count('$info["cosmocode plugin"]')." plugins have been developed at CosmoCode:\n");
+        fwrite($fp,$s->plugins('$info["cosmocode plugin"]'));
+
 
         fwrite($fp,"<sub>Return to <= [[start|Beginning of survey]]</sub>\n");
         fwrite($fp,"\n");
