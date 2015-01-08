@@ -569,6 +569,10 @@ class pg_reportwriter extends pg_gardener {
         }
         fwrite($fp,"\n");
 
+        fwrite($fp,"===== Unittests =====\n");
+        fwrite($fp,"Unittests are a best practice for every software code. [[devel:unittesting#plugin_and_template_tests|Dokuwiki supports unittests also for plugins.]] However only " . $s->count('$info["unittests"]') ." plugins (" . sprintf("%.2f",$s->count('$info["unittests"]')/$s->total*100) . "%) have any unittests, whereas " . $s->count('!$info["unittests"]',"No unittests") ." plugins do not.\n");
+        fwrite($fp,$s->plugins('$info["unittests"]'));
+
         fclose($fp);
 
         // !!! changing back "total" to make percentage against number of plugins !!!
