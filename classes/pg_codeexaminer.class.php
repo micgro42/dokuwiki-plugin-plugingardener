@@ -117,8 +117,9 @@ $ii = 0;
                 } elseif (in_array($fileinfo['basename'], array('.svn','_darcs'))) {
                     $this->info[$plugin]['junk'] = $fileinfo['basename'];
 
-                } elseif (in_array($fileinfo['basename'], array('syntax','admin','renderer','helper','action'))) {
-                    $this->_examine_plugin_dir($plugin,$file.'/',false);
+                } elseif (in_array($fileinfo['basename'], array('syntax','admin','renderer','helper','action','_test'))) {
+                    $this->_examine_plugin_dir($plugin, $file . '/', false);
+
                 } else {
 //                    echo '&nbsp;&nbsp;skipped<br/>';
                 }
@@ -133,7 +134,10 @@ $ii = 0;
                 $this->info[$plugin]['plugininfotxt'] = 'yes';
 
             } elseif ($fileinfo['extension'] == 'css') {
-                $this->_examine_css($plugin,$file,$fileinfo['filename']);
+                $this->_examine_css($plugin, $file, $fileinfo['filename']);
+
+            } elseif (strstr($fileinfo['basename'],".test.php") == ".test.php") {
+                $this->info[$plugin]['unittests'] = 'yes';
 
             } elseif ($fileinfo['extension'] == 'php') {
                 $this->_examine_php($plugin,$file);
