@@ -253,6 +253,11 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
             $this->info[$plugin]['conflicts'] = $matches[1];
         }
 
+        if (preg_match('/\<dt\>Requires\<\/dt\>[\n]?\<dd\>(.*?)\<\/dd\>/', $page, $match)) {
+            preg_match_all('/\/plugin:([-.\w]*)/', $match[1], $matches);
+            $this->info[$plugin]['depends'] = $matches[1];
+        }
+
         preg_match_all('/Last modified: (\d+[\-]\d+[\-]\d+)/', $page, $matches);
         $this->info[$plugin]['pagemodified'] = str_replace('/', '-', $matches[1][0]);
 
