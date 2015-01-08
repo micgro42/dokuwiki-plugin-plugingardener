@@ -316,7 +316,12 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
         preg_match_all('/<a ([^>]+)>(.*?)<\/a>/', $page, $matches, PREG_SET_ORDER);
         foreach ($matches as $link) {
             if (preg_match('/<\/span>/', $link[2])) continue;
-            if (preg_match('/<img /', $link[2])) continue;
+            if (preg_match('/<img /', $link[2])) {
+                if (strpos($link[1],"href=\"http://www.cosmocode.de/en/open-source/dokuwiki-plugins/") !== False) {
+                    $this->info[$plugin]['cosmocode plugin'] = True;
+                }
+                continue;
+            }
             if (preg_match('/playground/', $link[1])) continue;
 
             if (preg_match('/href="(http[s]?:[^"]+)"/', $link[1], $url)) {
