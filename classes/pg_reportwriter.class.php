@@ -22,6 +22,7 @@ class pg_reportwriter extends pg_gardener {
         }
         
         $s = new pg_stats($this->info, $this->collections);
+        $this->cfg['survey_year'];
 
         $this->_export_summary($localoutputdir, $s);
         $this->_export_deployment($localoutputdir, $s);
@@ -50,8 +51,8 @@ class pg_reportwriter extends pg_gardener {
          *                          The csv export does include the 'not plugins' but the text reports doesn't 
          */
         $fp = fopen($resultFile, 'w');
-        $survey_year = $this->cfg['survey_year'];
-        fwrite($fp,"====== Plugin Survey ".$survey_year." ======\n");
+
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." ======\n");
         fwrite($fp,"This is a survey of all [[:plugins]] present in the plugin namespace of %%www.dokuwiki.org%%.\n");
         fwrite($fp,"Data was collected by an automated script 2015-01-05 with some additional manual data download and mining.\n");
         fwrite($fp,"A total of ".count($this->collections['plugins'])." plugin pages containing ".$s->total." plugins was examined and source code for ");
@@ -91,7 +92,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'deployment.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Deployment ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Deployment ======\n");
         fwrite($fp,"\n");
         fwrite($fp,"===== Bundled =====\n");
         fwrite($fp,$s->cnt('$info["bundled"]')." are marked [[plugintag>!bundled]] (i.e. included in the release).\n");
@@ -185,7 +186,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'compatibility.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Compatibility ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Compatibility ======\n");
         fwrite($fp,"\n");
         fwrite($fp,$s->cnt('$info["pagemodified"] > "'.$lastyear.'"','%s homepages %s')." are modified within last 12 months.\n");
         fwrite($fp,"\n");
@@ -378,8 +379,8 @@ class pg_reportwriter extends pg_gardener {
          */
         $resultFile = $localoutputdir.'syntax.txt';
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Syntax ======\n");
-        fwrite($fp,"<sup>(This is a part of the [[start|plugin survey ".date('Y')."]])</sup>\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Syntax ======\n");
+        fwrite($fp,"<sup>(This is a part of the [[start|plugin survey ".$this->cfg['survey_year']."]])</sup>\n");
         fwrite($fp,"\n");
         fwrite($fp,$s->count('$info["downloadexamined"] == "yes"')." plugins, downloaded during the survey, has been scanned for\n");
         fwrite($fp,"  * addSpecialPattern() - found ".count($syntax_special)." patterns.\n");
@@ -413,7 +414,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'codestyle.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Source Code ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Source Code ======\n");
         fwrite($fp,"The $downloadexamined downloaded plugins could be analysed and commented in a number of ways, here are some ;-).\n");
         fwrite($fp,"Metrics was done by [[http://cloc.sourceforge.net/|CLOC]] and comparisions are with DokuWiki 2009-02-14b (bundled plugins included).\n");
         fwrite($fp,"\n");
@@ -579,7 +580,7 @@ class pg_reportwriter extends pg_gardener {
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
 
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Events ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Events ======\n");
         fwrite($fp,"\n");
         $eventlist = $this->collections['eventlist'];
         $eventplugins = array();
@@ -679,7 +680,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'friendliness.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Friendliness ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Friendliness ======\n");
         fwrite($fp,"The plugin system was created to make it easy to share and reuse extensions and modification made by the DokuWiki community. \n");
         fwrite($fp,"Counted from the first DokuWiki release in august 2004 there has been an average of ".round($s->total/((2011-2004)*52),1)." new plugins every week! Today there is a wealth of plugins of different kinds.\n");
         fwrite($fp,"\n");
@@ -860,7 +861,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'developers.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"===== Plugin Survey ".date('Y')." - Developers =====\n");
+        fwrite($fp,"===== Plugin Survey ".$this->cfg['survey_year']." - Developers =====\n");
         fwrite($fp,"It must be easy to write a plugin, or at least very fun ;-). ");
         fwrite($fp,"There are ".count($developer)." (last year 333) different developers which is almost exactly ".round($s->total/count($developer),1)." plugins/developer");
         fwrite($fp,"in the [[start|survey]] but the wast majority (".round($singleplugindevs/count($developer)*100)."%) of the developers are single plugin authors. Our top ten most productive developers has written $topcontrib plugins together. \n");
@@ -966,7 +967,7 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'trackeddeverrors.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
-        fwrite($fp,"====== Plugin Survey ".date('Y')." - Developers Todo ======\n");
+        fwrite($fp,"====== Plugin Survey ".$this->cfg['survey_year']." - Developers Todo ======\n");
 
         fwrite($fp,"^Developer ^Error ^ Plugin^\n");
         $previousName = '';
