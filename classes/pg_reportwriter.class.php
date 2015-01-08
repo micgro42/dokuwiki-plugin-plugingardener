@@ -864,13 +864,13 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
 
         fwrite($fp,"We welcome these ".count($newdeveloper)." new plugin authors.\n");
-        fwrite($fp,$s->plugins_from_array($newdeveloper));
+        fwrite($fp,"  * " . implode(", ",$newdeveloper));
         fwrite($fp,"\n");
 
         fwrite($fp,"===== By number of plugins =====\n");
         fwrite($fp,"\n");
         fwrite($fp,"^ ^Developer ^Plugins ^^\n");
-        
+
         $i = 1;
         $place = 1;
         $previouscount = -1;
