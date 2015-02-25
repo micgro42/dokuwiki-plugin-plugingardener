@@ -171,7 +171,14 @@ class pg_stats {
         return $retval;
     }
 
-    function max($expression, $num = 1) {
+    /**
+     * @param $expression Field to evaluate, usually from $info
+     * @param int $num number of items to return
+     * @param bool $table if true, return as a table without headers
+     * @param bool $pluginlink if true, make $name a dokuwiki pluginlink
+     * @return string|void
+     */
+    function max($expression, $num = 1, $table = false, $pluginlink = false) {
         $key = hsc(str_replace(' ','',$expression));
         if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
             $this->cache[$key] = $this->filter($expression, null, true);
@@ -182,15 +189,36 @@ class pg_stats {
         $retval = '';
         $cnt = 0;
         foreach($this->cache[$key]['values'] as $name => $value) {
+            if ($table) {
+                $retval .= '|  ';
+            }
             $retval .= $value;
+            if ($table) {
+                $retval .= '|  ';
+            }
             if ($num == 1) break;
-            $retval .= ' '.$name.LF;
+            if ($pluginlink) {
+                $retval .= ' '.$this->wiki_link($name);
+            } else {
+                $retval .= ' ' . $name;
+            }
+            if ($table) {
+                $retval .= '  |';
+            }
+            $retval .= LF;
             if (++$cnt >= $num) break;
         }
         return $retval;
     }
 
-    function min($expression, $num = 1) {
+    /**
+     * @param $expression Field to evaluate, usually from $info
+     * @param int $num number of items to return
+     * @param bool $table if true, return as a table without headers
+     * @param bool $pluginlink if true, make $name a dokuwiki pluginlink
+     * @return string|void
+     */
+    function min($expression, $num = 1, $table = false, $pluginlink = false) {
         $key = hsc(str_replace(' ','',$expression));
         if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
             $this->cache[$key] = $this->filter($expression, null, true);
@@ -201,9 +229,23 @@ class pg_stats {
         $retval = '';
         $cnt = 0;
         foreach($this->cache[$key]['values'] as $name => $value) {
+            if ($table) {
+                $retval .= '|  ';
+            }
             $retval .= $value;
+            if ($table) {
+                $retval .= '|  ';
+            }
             if ($num == 1) break;
-            $retval .= ' '.$name.LF;
+            if ($pluginlink) {
+                $retval .= ' '.$this->wiki_link($name);
+            } else {
+                $retval .= ' ' . $name;
+            }
+            if ($table) {
+                $retval .= '  |';
+            }
+            $retval .= LF;
             if (++$cnt >= $num) break;
         }
         return $retval;
