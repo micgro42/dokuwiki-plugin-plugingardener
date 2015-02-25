@@ -597,15 +597,16 @@ class pg_reportwriter extends pg_gardener {
             foreach ($info['plugin'] as $module) {
                 if (!$module['events']) continue;
                 $eventplugins[] = $name;
-                if ($module['type'] != 'action') {
-                    $notaction[$event][] = $name;
-                }
                 foreach ($module['events'] as $event) {
                     if (!$eventlist[$event]['plugins'] || !in_array($name, $eventlist[$event]['plugins'])) {
                         $eventlist[$event]['plugins'][] = $name;
                         if (!$eventlist[$event]['url']) {
                             $urlmissing[$event][] = $name;
                         }
+                    }
+
+                    if ($module['type'] != 'action') {
+                        $notaction[$event][] = $name;
                     }
                 }
             }
