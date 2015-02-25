@@ -15,12 +15,12 @@ class pg_reportwriter extends pg_gardener {
         // create csv files with ALL information
         $this->_export_csv($localoutputdir,false);
         $this->_export_csv($localoutputdir,true);
-        
+
         // unlink 'not' plugins
         foreach ($this->collections['notPlugins'] as $notplugin) {
             unset($this->info[$notplugin]);
         }
-        
+
         $s = new pg_stats($this->info, $this->collections);
         $this->cfg['survey_year'];
 
@@ -46,9 +46,9 @@ class pg_reportwriter extends pg_gardener {
         $resultFile = $localoutputdir.'start.txt';
         echo "<li>$resultFile</li>";
         /*
-         * collections['plugins']   contains all pages in plugin namespace as taken from index page 
+         * collections['plugins']   contains all pages in plugin namespace as taken from index page
          * $total                   number of entries in $this->info[] AFTER 'not plugins' has been unlinked
-         *                          The csv export does include the 'not plugins' but the text reports doesn't 
+         *                          The csv export does include the 'not plugins' but the text reports doesn't
          */
         $fp = fopen($resultFile, 'w');
 
@@ -436,7 +436,7 @@ class pg_reportwriter extends pg_gardener {
 
         fwrite($fp,"=== Config ===\n");
         fwrite($fp,"DokuWiki framework enable plugins or templates to be [[devel:configuration|configurable]] by the [[plugin:config|configuration manager]] which will handle/display the options. Plugins should provide\n");
-        fwrite($fp,"  * ''<plugin>/conf/default.php'' which will hold the default settings and\n"); 
+        fwrite($fp,"  * ''<plugin>/conf/default.php'' which will hold the default settings and\n");
         fwrite($fp,"  * ''<plugin>/conf/metadata.php'' which holds the describing [[devel:configuration#configuration metadata]].\n");
         fwrite($fp,"During the survey ".$s->cnt('$info["conf"]')." were found compatible with the configuration manager. ");
         fwrite($fp,$s->count('$info["conf"] == "nometa"')." plugins are missing the metadata file, unknown whether this is intentional or not.\n");
@@ -470,7 +470,7 @@ class pg_reportwriter extends pg_gardener {
         $syntaxplugins = $s->count('$info["t_syntax"]');
         fwrite($fp,"Together with those using PHP event they represent x% of the $syntaxplugins syntax plugins.\n");
         fwrite($fp,"\n");
-        fwrite($fp,$s->cnt('$info["javatoolbar"] == "yes"')." are using the static data method accessing ''toolbar[…]''\n");
+        fwrite($fp,$s->cnt('$info["javatoolbar"] == "yes"')." are using the static data method accessing ''toolbar[]''\n");
         fwrite($fp,$s->plugins('$info["javatoolbar"] == "yes"'));
         fwrite($fp,"\n");
         fwrite($fp,$s->cnt('$info["javatoolbar"] == "dynamic"')." are using dynamic method based on ''getElementById('tool%%__%%bar')'' or ''jQuery('tool%%__%%bar')''\n");
@@ -719,7 +719,7 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
 
         fwrite($fp,"=== Homepage size ===\n");
-        fwrite($fp,"There are at least ".$s->count('$info["textsize"] < 1000',null,'Small homepage')." plugin homepages that could be considered thin, most contain only a “Details & Download” link. \n");
+        fwrite($fp,"There are at least ".$s->count('$info["textsize"] < 1000',null,'Small homepage')." plugin homepages that could be considered thin, most contain only a \"Details & Download\" link. \n");
         fwrite($fp,"The following ".$s->count('$info["pagesize"] > 100000','Need to cleanup plugin homepage')." plugins represent the other extreme having the largest pages with lots of <code> blocks and comments. They are in a desperate need of cleanup. \n");
         fwrite($fp,$s->plugins('$info["pagesize"] > 100000'));
         fwrite($fp,"\n");
@@ -734,7 +734,7 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"| >= 12 | ".$s->cnt('$info["readability_gf"] >= 12')." |Hard to understand |\n");
         fwrite($fp,$s->plugins('$info["readability_gf"] >= 12'));
         fwrite($fp,"\n");
-        fwrite($fp,"An alternative measure is the [[wp>Flesch–Kincaid Readability Test|Flesch Reading Ease]] score, higher scores indicate material that is easier to read. ");
+        fwrite($fp,"An alternative measure is the [[wp>Flesch-Kincaid Readability Test|Flesch Reading Ease]] score, higher scores indicate material that is easier to read. ");
         fwrite($fp,"The median score is ".$s->median('$info["readability_fs"]').".\n");
         fwrite($fp,"\n");
         fwrite($fp,"^Flesh score ^ Plugins ^ ^\n");
@@ -753,12 +753,12 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"=== Images ===\n");
         $havingimage = '$info["homepageimage"] && ($info["t_syntax"] || $info["t_admin"])';
         $maxpopulation = $s->count('$info["t_syntax"] || $info["t_admin"]');
-        fwrite($fp,"\"A picture is worth a thousand words\" –- Only ");
+        fwrite($fp,"\"A picture is worth a thousand words\" -- Only ");
         fwrite($fp,$s->count($havingimage)." (".round($s->count($havingimage)/max(1,$maxpopulation)*100)."%) of the syntax and admin plugin homepages have one or more images showing the plugin in action on their homepage. This is a great way to explain complicated stuff. \n");
         fwrite($fp,"\n");
 
         fwrite($fp,"=== Devel & experimental ===\n");
-        fwrite($fp,"Last year 21 plugins referred to [[devel:develonly]], this has grown to ".$s->count('$info["develonly"]','Develonly referred')." in this survey. ");
+        fwrite($fp,"Last year 21 plugins referred to [[devel:develonly]], this has changed to ".$s->count('$info["develonly"]','Develonly referred')." in this survey. ");
         fwrite($fp,"These plugins rely on features which are currently only available in the development version of DokuWiki.\n");
         fwrite($fp,$s->plugins('$info["develonly"]'));
         fwrite($fp,"\n");
