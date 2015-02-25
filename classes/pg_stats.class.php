@@ -48,18 +48,18 @@ class pg_stats {
 
     function infos($expression, $dev_error_msg = null) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || !$cache[$key]['infos'] || $dev_error_msg) {
-            $cache[$key] = $this->filter($expression, $dev_error_msg, true);
+        if (!$this->cache[$key] || !$this->cache[$key]['infos'] || $dev_error_msg) {
+            $this->cache[$key] = $this->filter($expression, $dev_error_msg, true);
         }
-        return $cache[$key]['infos'];
+        return $this->cache[$key]['infos'];
     }
 
     function count($expression, $dev_error_msg = null) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || $dev_error_msg) {
-            $cache[$key] = $this->filter($expression, $dev_error_msg);
+        if (!$this->cache[$key] || $dev_error_msg) {
+            $this->cache[$key] = $this->filter($expression, $dev_error_msg);
         }
-        return $cache[$key]['cnt'];
+        return $this->cache[$key]['cnt'];
     }
 
     /*
@@ -67,13 +67,13 @@ class pg_stats {
      */
     function cnt($expression, $format = null, $dev_error_msg = null) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || $dev_error_msg) {
-            $cache[$key] = $this->filter($expression, $dev_error_msg);
+        if (!$this->cache[$key] || $dev_error_msg) {
+            $this->cache[$key] = $this->filter($expression, $dev_error_msg);
         }
         if ($format) {
-            return sprintf($format, (string)$cache[$key]['cnt'], '('.round($cache[$key]['cnt']/$this->total*100).'%)');
+            return sprintf($format, (string)$this->cache[$key]['cnt'], '('.round($this->cache[$key]['cnt']/$this->total*100).'%)');
         } else {
-            return $cache[$key]['cnt'].' plugins ('.round($cache[$key]['cnt']/$this->total*100).'%)';
+            return $this->cache[$key]['cnt'].' plugins ('.round($this->cache[$key]['cnt']/$this->total*100).'%)';
         }
     }
 
@@ -82,10 +82,10 @@ class pg_stats {
      */
     function plugins($expression, $dev_error_msg = null) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || $dev_error_msg) {
-            $cache[$key] = $this->filter($expression, $dev_error_msg);
+        if (!$this->cache[$key] || $dev_error_msg) {
+            $this->cache[$key] = $this->filter($expression, $dev_error_msg);
         }
-        return $this->plugins_from_array($cache[$key]['plugins']);
+        return $this->plugins_from_array($this->cache[$key]['plugins']);
     }
 
     function plugins_from_array($plugins, $linksonly = false) {
@@ -171,13 +171,13 @@ class pg_stats {
 
     function max($expression, $num = 1) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || !$cache[$key]['infos']) {
-            $cache[$key] = $this->filter($expression, null, true);
+        if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
+            $this->cache[$key] = $this->filter($expression, null, true);
         }
-        if (!$cache[$key]['values']) return;
+        if (!$this->cache[$key]['values']) return;
 
-        arsort($cache[$key]['values']);
-        foreach($cache[$key]['values'] as $name => $value) {
+        arsort($this->cache[$key]['values']);
+        foreach($this->cache[$key]['values'] as $name => $value) {
             $retval .= $value;
             if ($num == 1) break;
             $retval .= ' '.$name.LF;
@@ -188,13 +188,13 @@ class pg_stats {
 
     function min($expression, $num = 1) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || !$cache[$key]['infos']) {
-            $cache[$key] = $this->filter($expression, null, true);
+        if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
+            $this->cache[$key] = $this->filter($expression, null, true);
         }
-        if (!$cache[$key]['values']) return;
+        if (!$this->cache[$key]['values']) return;
 
-        asort($cache[$key]['values']);
-        foreach($cache[$key]['values'] as $name => $value) {
+        asort($this->cache[$key]['values']);
+        foreach($this->cache[$key]['values'] as $name => $value) {
             $retval .= $value;
             if ($num == 1) break;
             $retval .= ' '.$name.LF;
@@ -205,22 +205,22 @@ class pg_stats {
 
     function sum($expression) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || !$cache[$key]['infos']) {
-            $cache[$key] = $this->filter($expression, null, true);
+        if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
+            $this->cache[$key] = $this->filter($expression, null, true);
         }
-        if (!$cache[$key]['values']) return;
+        if (!$this->cache[$key]['values']) return;
 
-        return array_sum($cache[$key]['values']);
+        return array_sum($this->cache[$key]['values']);
     }
 
     function median($expression) {
         $key = hsc(str_replace(' ','',$expression));
-        if (!$cache[$key] || !$cache[$key]['infos']) {
-            $cache[$key] = $this->filter($expression, null, true);
+        if (!$this->cache[$key] || !$this->cache[$key]['infos']) {
+            $this->cache[$key] = $this->filter($expression, null, true);
         }
-        if (!$cache[$key]['values']) return;
+        if (!$this->cache[$key]['values']) return;
 
-        $array = array_values($cache[$key]['values']);
+        $array = array_values($this->cache[$key]['values']);
         sort($array);
 
         if (count($array) == 1) return $array[0];
