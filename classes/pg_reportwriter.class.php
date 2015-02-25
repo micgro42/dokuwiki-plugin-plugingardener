@@ -425,11 +425,13 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"The median plugin is a syntax plugin with ".$s->median('$info["php_lines"]')." lines of PHP. Finally there are ".$s->count('$info["php_lines"] > 2000')." plugins with more than 2,000 lines of code, \n");
         fwrite($fp,"largest is **dw2pdf** with ".$s->max('$info["php_lines"]')." lines of code.\n");
         fwrite($fp,"\n");
-        fwrite($fp,"Five smallest\n");
-        fwrite($fp,$s->min('$info["php_lines"]', 5));
+        fwrite($fp,"Five smallest:\n");
+        fwrite($fp,"^  Lines of Code^  Plugin-name  ^\n");
+        fwrite($fp,$s->min('$info["php_lines"]', 5, true, true));
         fwrite($fp,"\n");
         fwrite($fp,"Five largest\n");
-        fwrite($fp,$s->max('$info["php_lines"]', 5));
+        fwrite($fp,"^  Lines of Code^  Plugin-name  ^\n");
+        fwrite($fp,$s->max('$info["php_lines"]', 5, true, true));
         fwrite($fp,"\n");
 
         fwrite($fp,"=== Config ===\n");
