@@ -41,7 +41,7 @@ class pg_reportwriter extends pg_gardener {
     }
 
 
-    function _export_summary($localoutputdir, $s) {
+    function _export_summary($localoutputdir, pg_stats $s) {
 
         $resultFile = $localoutputdir.'start.txt';
         echo "<li>$resultFile</li>";
@@ -87,7 +87,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_deployment($localoutputdir, $s) {
+    function _export_deployment($localoutputdir, pg_stats $s) {
 
         $resultFile = $localoutputdir.'deployment.txt';
         echo "<li>$resultFile</li>";
@@ -178,7 +178,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_compatibility($localoutputdir, $s) {
+    function _export_compatibility($localoutputdir, pg_stats $s) {
 
         $lastyear = date('Y-m-d', mktime(0, 0, 0, date("m"), date("d"), date("Y")-1));
         $releases = array('2011-11-10', '2011-05-25', '2010-11-07', '2009-12-25', '2009-02-14', '2008-05-05', '2007-06-26', '2006-11-06');
@@ -405,7 +405,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_codestyle($localoutputdir, $s) {
+    function _export_codestyle($localoutputdir, pg_stats $s) {
 
         // !!! changing "total" to make percentage against number of examined !!!
         $downloadexamined = $s->count('$info["downloadexamined"] == "yes"');
@@ -579,7 +579,7 @@ class pg_reportwriter extends pg_gardener {
         $s->total = count($this->info);
     }
 
-    function _export_events($localoutputdir, $s) {
+    function _export_events($localoutputdir, pg_stats $s) {
         $resultFile = $localoutputdir.'events.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
@@ -681,7 +681,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_friendliness($localoutputdir, $s) {
+    function _export_friendliness($localoutputdir, pg_stats $s) {
         $resultFile = $localoutputdir.'friendliness.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
@@ -822,7 +822,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_developers($localoutputdir, $s) {
+    function _export_developers($localoutputdir, pg_stats $s) {
         function sortdevplugins_callback($a, $b) {
             if (count($a['plugins']) == count($b['plugins'])) {
                 return strcasecmp($a['developer'], $b['developer']);
@@ -968,7 +968,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_trackedDevErrors($localoutputdir, $s) {
+    function _export_trackedDevErrors($localoutputdir, pg_stats $s) {
         $resultFile = $localoutputdir.'trackeddeverrors.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
@@ -989,7 +989,7 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_teamtodolist($localoutputdir, $s) {
+    function _export_teamtodolist($localoutputdir, pg_stats $s) {
         $resultFile = $localoutputdir.'teamtodolist.txt';
         echo "<li>$resultFile</li>";
 
@@ -1013,7 +1013,11 @@ class pg_reportwriter extends pg_gardener {
         fclose($fp);
     }
 
-    function _export_references($localoutputdir, $s) {
+    /**
+     * @param $localoutputdir
+     * @param pg_stats $s
+     */
+    function _export_references($localoutputdir, pg_stats $s) {
         $resultFile = $localoutputdir.'references.txt';
         echo "<li>$resultFile</li>";
         $fp = fopen($resultFile, 'w');
