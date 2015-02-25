@@ -109,6 +109,7 @@ class pg_stats {
     function pivot($expression, $showpercent = false, $sortlinkcount = false, $sortdesc = false, $num = null, $showlinks = false, $callback = false) {
         $result = array();
         $func = create_function('$info' , "return ($expression);");
+        $plugin_cnt = 0;
         foreach($this->info as $name => $info) {
             $key = $func($info);
             if (is_array($key)) {
@@ -142,6 +143,7 @@ class pg_stats {
         }
         $retval = '';
         $callback = array('pg_stats',$callback);
+        $cnt = 0;
         foreach($result as $key => $links) {
             $retval .= '|  ';
             if (is_callable($callback)) {
@@ -177,6 +179,8 @@ class pg_stats {
         if (!$this->cache[$key]['values']) return;
 
         arsort($this->cache[$key]['values']);
+        $retval = '';
+        $cnt = 0;
         foreach($this->cache[$key]['values'] as $name => $value) {
             $retval .= $value;
             if ($num == 1) break;
@@ -194,6 +198,8 @@ class pg_stats {
         if (!$this->cache[$key]['values']) return;
 
         asort($this->cache[$key]['values']);
+        $retval = '';
+        $cnt = 0;
         foreach($this->cache[$key]['values'] as $name => $value) {
             $retval .= $value;
             if ($num == 1) break;
