@@ -80,7 +80,7 @@ $ii = 0;
 
         // CLOC code metrics
         if ($runcloc && !$this->cfg['fasteval']) {
-            exec("cloc -no3 $plugindir", $result);
+            exec("cloc -no3 \"$plugindir\"", $result);
             $result = implode("\n", $result);
             if (preg_match('/PHP\s+(\d+)\s+\d+\s+(\d+)\s+(\d+)/i', $result, $match)) {
                 $this->info[$plugin]['php_files'] = $match[1];
