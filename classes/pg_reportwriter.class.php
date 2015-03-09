@@ -294,6 +294,7 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"===== Syntax =====\n");
         /*
          * Collect and analyze regexp's for syntax plugins
+         * TODO: Move out of pg_reportwriter
          */
         $regfind = array('"', "'",'\\x3c', '\\x3e', '\\');
         $regrepl = array('' , '' ,'<' ,    '>', '');
@@ -356,9 +357,9 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"\n");
 
         fwrite($fp,"Automatic checking of regex strings is beyond SurveyBot's abilities, it even fails resolving static variables. But some observations can be made reading the list. Here are a couple of cases of greedy regex'es\n");
-        fwrite($fp,"^Plugin ^Regex ^\n");
+        fwrite($fp,"^Plugin ^Regex ^ Last Update ^ \n");
         foreach ($syntax_gready as $data) {
-            fwrite($fp,"|".$s->wiki_link($data[0])." |%%$data[1]%% |\n");
+            fwrite($fp,"|".$s->wiki_link($data[0])." |%%$data[1]%% |  " . $this->info[$data[0]]['lastupdate'] . "|\n");
         }
         fwrite($fp,"\n");
 
@@ -367,11 +368,13 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,$s->plugins_from_array($syntax_nolookahead));
         fwrite($fp,"\n");
 
+        /*
         fwrite($fp,"===== Replacement Renderers =====\n");
         fwrite($fp,"[[devel:renderer_plugins#replacement_default_renderer|Replacement renderers]] are inherently conflicting with each other because only one can be [[config:renderer_xhtml|selected]] at a time.\n");
         fwrite($fp,"There are ".$s->count('$info["canRender"]')." replacement renderers.\n");
         fwrite($fp,$s->plugins('$info["canRender"]'));
         fwrite($fp,"\n");
+        */
         fclose($fp);
 
         /*
