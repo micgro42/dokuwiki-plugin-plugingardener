@@ -215,8 +215,8 @@ class pg_dokuwikiwebexaminer extends pg_gardener {
     }
 
     function _readabilityIndex($plugin, $page) {
-        $page = explode('<ul id="pluginrepo__foldout">', $page, 2);
-        $page = explode('</ul>', $page[1], 2);
+        $page = explode('<div class="authorInfo">', $page, 2);
+        $page = explode('</div>', $page[1], 2);
         $page = explode('<!-- wikipage stop -->', $page[1]);
         $page = preg_replace('/<pre .*?<\/pre>/s','',$page[0]); //remove code blocks
         $page = preg_replace('!</(li|h[1-5])>!i','. ',$page); //make sentences from those tags
