@@ -243,7 +243,25 @@ $ii = 0;
         if (strpos($js, '.runAJAX(', $js) !== false) {
             $this->info[$plugin]['java_ajax'] = 'yes';
         }
-		if ($this->info[$plugin]['java_lines'] > 800 || $this->cfg['fasteval'] || true) {
+
+        //taken from lib/scripts/compatiblity.js
+        if (strpos($js,'addEvent') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'removeEvent') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'addInitEvent') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'getElementsByClass') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'isArray') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'isFunction') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        } elseif (strpos($js, 'isEmpty') !== false) {
+            $this->info[$plugin]['oldjquery'] = 'yes';
+        }
+
+		if ($this->info[$plugin]['java_lines'] > 800 || $this->cfg['fasteval'] || true) { //TODO: Enable js checking with jslint
 				$this->info[$plugin]['java_lint'] = 'skipped';
         } else {
 			$cmd = "cscript ".dirname(__FILE__)."\..\jslint.js";
