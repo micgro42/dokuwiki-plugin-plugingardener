@@ -198,10 +198,10 @@ $ii = 0;
             $this->info[$plugin]['canRender'] = 'yes';
         */
 
-        if (preg_match('/strftime/',$markup))
+        if (strpos($markup, 'strftime') !== false)
             $this->info[$plugin]['strftime'] = 'yes';
 
-        if (preg_match('/dformat/',$markup))
+        if (strpos($markup, 'dformat') !== false)
             $this->info[$plugin]['dformat'] = 'yes';
 
         if (preg_match('/\$ACT\s*==\s*\'save\'/i',$markup))
@@ -211,7 +211,7 @@ $ii = 0;
             $this->info[$plugin]['php5'] = 'yes';
 
         //check for usage of old auth backend
-        if (preg_match('/inc\/auth\//',$markup))
+        if (strpos($markup, 'inc/auth/') !== false)
             $this->info[$plugin]['old_auth'] = 'yes';
 
         // registered event handlers
@@ -228,19 +228,19 @@ $ii = 0;
     function _examine_javascript($plugin,$file) {
         $this->info[$plugin]['javascript'] = 'yes';
         $js = file_get_contents($file);
-        if (preg_match('/DOKUWIKI:include/', $js)) {
+        if (strpos($js, 'DOKUWIKI:include') !== false) {
             $this->info[$plugin]['javainclude'] = 'yes';
         }
-        if (preg_match('/toolbar\[/', $js)) {
+        if (strpos($js, 'toolbar[', $js) !== false) {
             $this->info[$plugin]['javatoolbar'] = 'yes';
         }
-        if (preg_match('/jQuery\(/', $js)) {
+        if (strpos($js, 'jQuery(') !== false) {
             $this->info[$plugin]['jquery'] = 'yes';
         }
-        if (preg_match('/\(\'tool__bar\'\)/', $js)) {
+        if (strpos($js, '(\'tool__bar\')', $js) !== false) {
             $this->info[$plugin]['javatoolbar'] = 'dynamic';
         }
-        if (preg_match('/\.runAJAX\(/', $js)) {
+        if (strpos($js, '.runAJAX(', $js) !== false) {
             $this->info[$plugin]['java_ajax'] = 'yes';
         }
 		if ($this->info[$plugin]['java_lines'] > 800 || $this->cfg['fasteval'] || true) {
