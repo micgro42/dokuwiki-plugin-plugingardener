@@ -177,9 +177,13 @@ $ii = 0;
         $this->info[$plugin]['plugin'][$class]['name'] = $classname;
 
         // function getInfo
-        $infos = io_grep($file,'/(?<=\x27author\x27 => \x27)\w*(?=\x27)/',0,true);
-        $this->info[$plugin]['plugin'][$class]['code_author'] = $infos[0][0];
-        $infos = io_grep($file,'/(?<=\x27date\x27 => \x27)\w*(?=\x27)/',0,true);
+        /* TODO find a pupose for these variables
+        $infos = io_grep($file,'/\'author\' *=> *\'(.*?)\'/',0,true);
+        $this->info[$plugin]['plugin'][$class]['code_author'] = $infos[0][1];
+        $infos = io_grep($file,'/\'date\' *=> *\'(.*?)\'/',0,true);
+        $this->info[$plugin]['plugin'][$class]['code_date'] = $infos[0][1];
+        $infos = io_grep($file,'/function getInfo\(\)/',0,true);
+        */
 
         // function connectTo
         preg_match_all('/Lexer->addSpecialPattern\(\s*(.*?)\s*,\s*\$/',$markup,$matches);
@@ -188,9 +192,11 @@ $ii = 0;
         $this->info[$plugin]['plugin'][$class]['regexp_entry'] = $matches[1];
         preg_match_all('/Lexer->addExitPattern\(\s*(.*?)\s*,\s*\'plugin/',$markup,$matches);
         $this->info[$plugin]['plugin'][$class]['regexp_exit'] = $matches[1];
-        
+
+        /* TODO: We need to check that these render the same format
         if (preg_match('/function canRender/',$markup))
             $this->info[$plugin]['canRender'] = 'yes';
+        */
 
         if (preg_match('/strftime/',$markup))
             $this->info[$plugin]['strftime'] = 'yes';
