@@ -74,7 +74,7 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"===== New Highlights in the 2014 survey =====\n");
         fwrite($fp,"  * Which plugins still use invalid javascript instead of jQuery? (todo)\n");
         fwrite($fp,"  * [[codestyle#php5|Which plugins depend on the old auth backend?]]\n");
-        fwrite($fp,"  * Which plugins use deprecated functions? (todo)\n");
+        fwrite($fp,"  * [[codestyle#jquery|Which plugins use removed javascript functions?]]\n");
 
         fwrite($fp,"===== Not every plugin is a plugin =====\n");
         fwrite($fp,"\n");
@@ -505,6 +505,11 @@ class pg_reportwriter extends pg_gardener {
         fwrite($fp,"The [[http://www.jquery.com/|jQuery]] library was introduced with DokuWiki release 2011-11-10 \"Angua\". This enables plugin and template developers to more stuff with fewer lines of Java. \n");
         fwrite($fp,"jQuery code is found in ".$s->count('$info["jquery"]')." plugins.\n");
         fwrite($fp,$s->plugins('$info["jquery"]'));
+        fwrite($fp,"\n");
+
+        fwrite($fp,"This also means, that many of the homegrown javascript utility functions became deprecated and were removed with DokuWiki release 2013-05-10 \"Weatherwax\". Plugins still using these old function may be incompatible with current dokuwiki releases and should replace these functions.  \n");
+        fwrite($fp,"Old javascript code is found in ".$s->count('$info["oldjquery"]',"Uses old javascript functions. See https://www.dokuwiki.org/devel:jqueryfaq")." plugins.\n");
+        fwrite($fp,$s->plugins('$info["oldjquery"]'));
         fwrite($fp,"\n");
 
         fwrite($fp,"=== AJAX ===\n");
